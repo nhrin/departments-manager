@@ -12,6 +12,7 @@
     <c:forEach var="emp" items="${employees}">
         <tr>
             <td>${emp.name}</td>
+            <td>${emp.birthday}</td>
             <td><a href="<c:url value="/employees?action=remove&id=${emp.id}&departmentId=${emp.departmentId}"/>">remove</a></td>
             <td><a href="<c:url value="/employees?action=edit&id=${emp.id}&name=${emp.name}&email=${emp.email}&departmentId=${param.get('departmentId')}"/>">edit</a></td>
         </tr>

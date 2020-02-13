@@ -7,26 +7,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DepartmentsDao {
+    private String url = "jdbc:mysql://localhost:3306/mydb?serverTimezone=UTC";
+    private String user = "root";
+    private String password = "root";
 
     public List<Department> findAll() {
         List<Department> departments = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://192.168.99.100:3306/mydb", "root", "root")) {
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            connection.getCatalog();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM Departments");
+            ResultSet rs = statement.executeQuery("SELECT * FROM departments");
             while (rs.next()) {
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
                 departments.add(new Department(id, name));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw  new RuntimeException();
         }
 
         return departments;
     }
 
     public void update(Department department) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://192.168.99.100:3306/mydb", "root", "root")) {
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
             PreparedStatement statement = connection.prepareStatement("UPDATE Departments SET `name` = ? WHERE id = ?");
             statement.setString(1, department.getName());
             statement.setInt(2, department.getId());

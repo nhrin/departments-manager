@@ -11,6 +11,8 @@
         <input type="hidden" name="departmentId" value="${param.get("departmentId")}">
         <input type="text" name="name" value="${param.get("name")}">
         <input type="text" name="email" value="${param.get("email")}">
+        <label for="date">Birthday: </label>
+        <input type="date" id="date" name="birthday" value="${param.get("birthday")}">
         <input type="submit" value="ok">
     </label>
 </form>
