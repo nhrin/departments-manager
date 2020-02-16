@@ -1,5 +1,6 @@
 package org.example.servlet;
 
+import lombok.SneakyThrows;
 import org.example.dao.DepartmentsDao;
 import org.example.model.Department;
 
@@ -14,9 +15,9 @@ import java.util.Optional;
 @WebServlet(urlPatterns = "/departments")
 public class DepartmentsServlet extends HttpServlet {
     private DepartmentsDao departmentsDao = new DepartmentsDao();
-
+    @SneakyThrows
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)  {
         String action = Optional.ofNullable(req.getParameter("action"))
                 .orElse("");
 
@@ -34,9 +35,9 @@ public class DepartmentsServlet extends HttpServlet {
                 req.getRequestDispatcher("departments.jsp").forward(req, resp);
         }
     }
-
+    @SneakyThrows
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)  {
         String id = req.getParameter("id");
         String name = req.getParameter("name");
 

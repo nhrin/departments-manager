@@ -5,7 +5,6 @@ import org.example.model.Employee;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class EmployeesDao {
@@ -13,7 +12,6 @@ public class EmployeesDao {
     private String url = "jdbc:mysql://localhost:3306/mydb?serverTimezone=UTC";
     private String user = "root";
     private String password = "root";
-    SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
     public List<Employee> findAll(int departmentId) {
         List<Employee> employees = new ArrayList<>();
@@ -28,7 +26,7 @@ public class EmployeesDao {
                 employees.add(new Employee(id, name, email, departmentId, birthday));
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
 
         return employees;
@@ -39,7 +37,7 @@ public class EmployeesDao {
             Statement statement = connection.createStatement();
             statement.execute("DELETE FROM Employees WHERE id = " + id);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -52,7 +50,7 @@ public class EmployeesDao {
             statement.setDate(4, java.sql.Date.valueOf(employee.getBirthday()));
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -62,11 +60,11 @@ public class EmployeesDao {
                     "UPDATE Employees SET `name` = ?, email = ?, birthday = ? WHERE id = ?");
             statement.setString(1, employee.getName());
             statement.setString(2, employee.getEmail());
-            statement.setInt(3, employee.getId());
-            statement.setDate(4, java.sql.Date.valueOf(employee.getBirthday()));
+            statement.setDate(3, java.sql.Date.valueOf(employee.getBirthday()));
+            statement.setInt(4, employee.getId());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

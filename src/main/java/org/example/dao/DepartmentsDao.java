@@ -23,7 +23,7 @@ public class DepartmentsDao {
                 departments.add(new Department(id, name));
             }
         } catch (SQLException e) {
-            throw  new RuntimeException();
+            throw  new RuntimeException(e);
         }
 
         return departments;
@@ -36,26 +36,26 @@ public class DepartmentsDao {
             statement.setInt(2, department.getId());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
     public void save(Department department) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://192.168.99.100:3306/mydb", "root", "root")) {
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO Departments (`name`) VALUES (?)");
             statement.setString(1, department.getName());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
     public void delete(Integer id) {
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://192.168.99.100:3306/mydb", "root", "root")) {
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
             Statement statement = connection.createStatement();
             statement.execute("DELETE FROM Departments WHERE id = " + id);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

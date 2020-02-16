@@ -20,8 +20,10 @@ import static java.lang.String.format;
 public class EmployeesServlet extends HttpServlet {
     private EmployeesDao employeesDao = new EmployeesDao();
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+    @SneakyThrows
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)  {
         String action = Optional.ofNullable(req.getParameter("action"))
                 .orElse("");
 
